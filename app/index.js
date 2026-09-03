@@ -8,12 +8,16 @@ import { ErrorBoundary } from "../components/ErrorBoundary";
 import { colors } from "../lib/theme";
 import { useLifeCounterContext } from "../lib/LifeCounterContext";
 
+// Estado de respaldo si el módulo de voz falla al montar: los totales de
+// vida siguen viéndose y tocando la pantalla no hace nada (en vez de
+// tumbar la app), con la misma leyenda de "sin escuchar" de siempre.
+//
 // DIAGNÓSTICO TEMPORAL: en vez del mensaje genérico de siempre, mostramos
-// el error real que atrapó el ErrorBoundary. Quitar una vez identificada
-// la causa y volver al texto genérico de antes.
+// el error real que atrapó el ErrorBoundary (nombre + mensaje + stack).
+// Quitar este cambio una vez identificada la causa.
 function brokenVoice(error) {
   const detail = error
-    ? `${error.name ?? "Error"}: ${error.message ?? String(error)}`
+    ? `${error.name ?? "Error"}: ${error.message ?? String(error)}\n${error.stack ?? "(sin stack)"}`
     : "sin detalle (error nulo)";
   return {
     isListening: false,
@@ -74,6 +78,12 @@ export default function MainScreen() {
 }
 
 const styles = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.background },
-  row: { flex: 1, flexDirection: "row" },
+  safe: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  row: {
+    flex: 1,
+    flexDirection: "row",
+  },
 });
