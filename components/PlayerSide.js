@@ -62,9 +62,9 @@ export default function PlayerSide({
         </Text>
       </View>
       {errorMessage ? (
-        <Text style={styles.errorText} numberOfLines={2}>
-          {errorMessage}
-        </Text>
+        // DIAGNÓSTICO TEMPORAL: sin límite de líneas para poder leer el
+        // stack trace completo. Volver a numberOfLines={2} después.
+        <Text style={styles.errorText}>{errorMessage}</Text>
       ) : null}
     </Pressable>
   );
