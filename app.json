@@ -1,0 +1,49 @@
+{
+  "expo": {
+    "name": "Puntos por Voz",
+    "slug": "puntos-por-voz",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "dark",
+    "scheme": "puntosporvoz",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#12151b"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.puntosporvoz.app",
+      "infoPlist": {
+        "NSMicrophoneUsageDescription": "Puntos por Voz usa el micrófono para escuchar comandos de voz (rojo, verde, gana, mitad, volver, reiniciar). El reconocimiento se hace en el dispositivo, sin enviar audio a internet.",
+        "NSSpeechRecognitionUsageDescription": "Puntos por Voz convierte tu voz en comandos de puntos de vida usando el reconocimiento de voz del dispositivo."
+      }
+    },
+    "android": {
+      "package": "com.puntosporvoz.app",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundColor": "#12151b"
+      },
+      "permissions": ["RECORD_AUDIO"]
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-speech-recognition",
+        {
+          "microphonePermission": "Permite a OjaVida escuchar tus comandos de voz.",
+          "speechRecognitionPermission": "Permite a OjaVida reconocer comandos de voz en el dispositivo.",
+          "androidSpeechServicePackages": ["com.google.android.googlequicksearchbox"]
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "REEMPLAZA_CON_TU_PROJECT_ID"
+      }
+    }
+  }
+}
