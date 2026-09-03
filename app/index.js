@@ -8,17 +8,22 @@ import { ErrorBoundary } from "../components/ErrorBoundary";
 import { colors } from "../lib/theme";
 import { useLifeCounterContext } from "../lib/LifeCounterContext";
 
-// Estado de respaldo si el módulo de voz falla al montar: los totales de
-// vida siguen viéndose y tocando la pantalla no hace nada (en vez de
-// tumbar la app), con la misma leyenda de "sin escuchar" de siempre.
-const BROKEN_VOICE = {
-  isListening: false,
-  toggle: () => {},
-  pendingReset: false,
-  confirmPendingReset: () => {},
-  cancelPendingReset: () => {},
-  voiceErrorMessage: "El módulo de voz no pudo inicializar en este build.",
-};
+// DIAGNÓSTICO TEMPORAL: en vez del mensaje genérico de siempre, mostramos
+// el error real que atrapó el ErrorBoundary. Quitar una vez identificada
+// la causa y volver al texto genérico de antes.
+function brokenVoice(error) {
+  const detail = error
+    ? `${error.name ?? "Error"}: ${error.message ?? String(error)}`
+    : "sin detalle (error nulo)";
+  return {
+    isListening: false,
+    toggle: () => {},
+    pendingReset: false,
+    confirmPendingReset: () => {},
+    cancelPendingReset: () => {},
+    voiceErrorMessage: `Voz no disponible — ${detail}`,
+  };
+}
 
 export default function MainScreen() {
   const { life, loseLife, gainLife, halveLife, undo, reset } =
@@ -53,7 +58,7 @@ export default function MainScreen() {
 
   return (
     <SafeAreaView style={styles.safe} edges={["top", "bottom", "left", "right"]}>
-      <ErrorBoundary fallback={() => renderScreen(BROKEN_VOICE)}>
+      <ErrorBoundary fallback={(error) => renderScreen(brokenVoice(error))}>
         <VoiceSession
           loseLife={loseLife}
           gainLife={gainLife}
@@ -69,12 +74,6 @@ export default function MainScreen() {
 }
 
 const styles = StyleSheet.create({
-  safe: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  row: {
-    flex: 1,
-    flexDirection: "row",
-  },
+  safe: { flex: 1, backgroundColor: colors.background },
+  row: { flex: 1, flexDirection: "row" },
 });
