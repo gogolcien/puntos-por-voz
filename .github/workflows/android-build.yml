@@ -44,7 +44,7 @@ jobs:
             gradle-${{ runner.os }}-
 
       - name: Instalar dependencias del proyecto
-        run: npm install
+        run: npm ci
 
       - name: Generar proyecto nativo (expo prebuild)
         run: npx expo prebuild --platform android
