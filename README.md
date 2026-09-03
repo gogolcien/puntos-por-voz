@@ -7,8 +7,13 @@ sin backend, historial guardado solo en memoria mientras la app está activa.
 
 ## Pantalla principal
 
-- **Verde** (izquierda) y **Rojo** (derecha), hasta 5 dígitos, inician en 8000.
-- **Barra central**: botón de historial arriba, botón de micrófono al centro.
+- App bloqueada en **horizontal** (landscape).
+- **Verde** (izquierda) y **Rojo** (derecha), hasta 5 dígitos, inician en 8000. Sin barra ni botón de micrófono en el centro.
+- **Tocar el número de vida de cualquiera de los dos jugadores** enciende o apaga el micrófono (es un solo estado global, no por jugador). Debajo del número aparece la leyenda:
+  - Escuchando 🎙 — mientras está activo.
+  - Micrófono sin escuchar — en reposo.
+  - Tocar de nuevo cualquiera de los dos números lo apaga.
+- Botón de **historial** (≡) flotante arriba al centro.
 - **Historial** (modal): registro cronológico desde 8000/8000, pérdidas en
   rojo, ganancias en verde, por jugador. Se borra al cerrar la app del todo.
 

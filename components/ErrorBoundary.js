@@ -11,11 +11,11 @@ import { colors, radii, spacing } from "../lib/theme";
 export class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false };
+    this.state = { hasError: false, error: null };
   }
 
-  static getDerivedStateFromError() {
-    return { hasError: true };
+  static getDerivedStateFromError(error) {
+    return { hasError: true, error };
   }
 
   componentDidCatch(error) {
@@ -25,7 +25,11 @@ export class ErrorBoundary extends Component {
 
   render() {
     if (this.state.hasError) {
-      return this.props.fallback ?? <DefaultFallback />;
+      const { fallback } = this.props;
+      if (typeof fallback === "function") {
+        return fallback(this.state.error);
+      }
+      return fallback ?? <DefaultFallback />;
     }
     return this.props.children;
   }
