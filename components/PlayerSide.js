@@ -21,6 +21,7 @@ export default function PlayerSide({
   life,
   isListening,
   onPress,
+  errorMessage,
   rotate180 = false,
 }) {
   const palette = SIDE_COLORS[player];
@@ -41,9 +42,17 @@ export default function PlayerSide({
       ]}
     >
       <Text style={styles.label}>{label}</Text>
-      <Text style={styles.total} numberOfLines={1} adjustsFontSizeToFit>
-        {life}
-      </Text>
+      <View style={styles.totalWrap}>
+        <Text
+          style={styles.total}
+          numberOfLines={1}
+          adjustsFontSizeToFit
+          minimumFontScale={0.05}
+          allowFontScaling={false}
+        >
+          {life}
+        </Text>
+      </View>
       <View style={styles.captionRow}>
         <Text style={[styles.caption, isListening && styles.captionActive]}>
           {isListening ? "Escuchando" : "Micrófono sin escuchar"}
@@ -52,6 +61,11 @@ export default function PlayerSide({
           🎙
         </Text>
       </View>
+      {errorMessage ? (
+        <Text style={styles.errorText} numberOfLines={2}>
+          {errorMessage}
+        </Text>
+      ) : null}
     </Pressable>
   );
 }
@@ -73,9 +87,18 @@ const styles = StyleSheet.create({
     ...typography.label,
     color: colors.textOnColor,
   },
+  totalWrap: {
+    flex: 1,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: spacing.sm,
+  },
   total: {
     ...typography.lifeTotal,
     color: colors.textOnColor,
+    width: "100%",
+    textAlign: "center",
   },
   captionRow: {
     flexDirection: "row",
@@ -95,5 +118,17 @@ const styles = StyleSheet.create({
   captionActive: {
     color: colors.textOnColor,
     opacity: 1,
+  },
+  errorText: {
+    color: "rgba(20,10,10,0.85)",
+    backgroundColor: "rgba(255,255,255,0.35)",
+    fontSize: 11,
+    fontWeight: "700",
+    textAlign: "center",
+    marginTop: spacing.xs,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 2,
+    borderRadius: 6,
+    maxWidth: "85%",
   },
 });

@@ -17,6 +17,7 @@ const BROKEN_VOICE = {
   pendingReset: false,
   confirmPendingReset: () => {},
   cancelPendingReset: () => {},
+  voiceErrorMessage: "El módulo de voz no pudo inicializar en este build.",
 };
 
 export default function MainScreen() {
@@ -31,12 +32,14 @@ export default function MainScreen() {
           life={life.green}
           isListening={voice.isListening}
           onPress={voice.toggle}
+          errorMessage={voice.voiceErrorMessage}
         />
         <PlayerSide
           player="red"
           life={life.red}
           isListening={voice.isListening}
           onPress={voice.toggle}
+          errorMessage={voice.voiceErrorMessage}
         />
         <HistoryButton />
         <ResetConfirmBanner
