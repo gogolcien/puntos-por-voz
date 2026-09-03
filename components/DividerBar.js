@@ -1,9 +1,18 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { router } from "expo-router";
-import { colors, radii, spacing } from "../lib/theme";
+import { colors } from "../lib/theme";
 import { IconButton } from "./ui";
+import { Text } from "react-native";
+import { spacing } from "../lib/theme";
 
-export default function DividerBar({ isListening, onToggleMic, lastHeard }) {
+/**
+ * Barra central. El botón de historial se renderiza siempre (no depende de
+ * ningún módulo nativo). El contenido de `children` es el bloque de
+ * micrófono; se pasa desde afuera para poder envolverlo en un
+ * ErrorBoundary sin que un fallo ahí se lleve también el botón de
+ * historial.
+ */
+export default function DividerBar({ children }) {
   return (
     <View style={styles.container} pointerEvents="box-none">
       <IconButton
@@ -16,26 +25,7 @@ export default function DividerBar({ isListening, onToggleMic, lastHeard }) {
 
       <View style={styles.spacer} />
 
-      <IconButton
-        onPress={onToggleMic}
-        active={isListening}
-        accessibilityLabel={
-          isListening ? "Detener escucha de voz" : "Activar escucha de voz"
-        }
-        style={styles.micButton}
-      >
-        <Text style={[styles.micIcon, isListening && styles.micIconActive]}>
-          {isListening ? "●" : "🎙"}
-        </Text>
-      </IconButton>
-
-      {isListening && lastHeard ? (
-        <View style={styles.transcriptBubble}>
-          <Text style={styles.transcriptText} numberOfLines={1}>
-            {lastHeard}
-          </Text>
-        </View>
-      ) : null}
+      {children}
     </View>
   );
 }
@@ -66,30 +56,5 @@ const styles = StyleSheet.create({
   },
   spacer: {
     flex: 1,
-  },
-  micButton: {
-    marginBottom: spacing.xl,
-  },
-  micIcon: {
-    fontSize: 24,
-    color: colors.micIcon,
-  },
-  micIconActive: {
-    color: colors.redGlow,
-  },
-  transcriptBubble: {
-    position: "absolute",
-    bottom: spacing.xl + 72,
-    width: 220,
-    marginLeft: -78,
-    backgroundColor: colors.historyCard,
-    borderRadius: radii.md,
-    paddingVertical: spacing.xs,
-    paddingHorizontal: spacing.sm,
-  },
-  transcriptText: {
-    color: colors.textMuted,
-    fontSize: 12,
-    textAlign: "center",
   },
 });
